@@ -9,7 +9,7 @@ O **SafeDose** é uma ferramenta de linha de comando (CLI) desenvolvida para res
 ### O Problema
 Erros de dosagem são causas comuns de intoxicação ou falta de eficácia no tratamento. A conversão de **mg/kg** para **ml** exige um cálculo que, em momentos de pressa ou estresse, pode levar a erros fatais.
 
-### ✅ A Solução
+### A Solução
 A aplicação automatiza esse cálculo. O usuário fornece o peso, a dose recomendada e a concentração do frasco, e o sistema entrega o valor exato a ser administrado, com validações de segurança.
 
 ---
