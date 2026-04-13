@@ -1,6 +1,6 @@
 # SafeDose - Calculadora de Dosagem Segura 💊
 
-![CI Pipeline](https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO/actions/workflows/ci.yml/badge.svg)
+![CI Pipeline](https://github.com/LuisEduardoTrSa/safedose-cli/blob/main/.github/workflows/ci.yml)
 > Versão Atual: 1.0.0 (SemVer)
 
 ## 📋 Sobre o Projeto
