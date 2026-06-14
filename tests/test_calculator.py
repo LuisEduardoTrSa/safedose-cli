@@ -1,19 +1,19 @@
 import pytest
-from src.calculator import calcular_dosagem
+from unittest.mock import patch
+from src.calculator import calcular_dosagem, consultar_medicamento_fda
+
 
 def test_calculo_dosagem_sucesso():
-
     assert calcular_dosagem(10, 100, 20) == 2.0
+
 
 def test_calculo_dosagem_valor_invalido():
     with pytest.raises(ValueError, match="maiores que zero"):
         calcular_dosagem(0, 50, 10)
 
+
 def test_calculo_dosagem_valor_limite():
     assert calcular_dosagem(0.5, 10, 5) == 0.25
-    
-from unittest.mock import patch
-from src.calculator import consultar_medicamento_fda
 
 
 @patch("src.calculator.requests.get")
@@ -34,6 +34,7 @@ def test_consultar_medicamento_fda(mock_get):
 
     assert resultado["generico"] == "Ibuprofen"
     assert resultado["marca"] == "Advil"
+
 
 @patch("src.calculator.requests.get")
 def test_consultar_medicamento_fda_nao_encontrado(mock_get):
