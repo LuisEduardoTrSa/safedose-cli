@@ -1,13 +1,13 @@
 import unittest
 from unittest.mock import patch
-from main import consultar_medicamento_fda, calcular_dosagem
+from src.calculator import consultar_medicamento_fda, calcular_dosagem
 
 class TestSafeDose(unittest.TestCase):
 
     def test_calcular_dosagem_sucesso(self):
         self.assertEqual(calcular_dosagem(10, 50, 15), 3.0)
 
-    @patch('main.requests.get')
+    @patch('src.calculator.requests.get')
     def test_integracao_openfda(self, mock_get):
         mock_response = unittest.mock.Mock()
         mock_response.status_code = 200
