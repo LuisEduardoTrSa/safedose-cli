@@ -44,7 +44,7 @@ def main():
 
         nome_exibicao = remedio.title()
         if dados_remedio:
-            print(f"✓ Medicamento validado!")
+            print("✓ Medicamento validado!")
             print(f"  Nome Genérico: {dados_remedio['generico']}")
             print(f"  Marca de Referência: {dados_remedio['marca']}")
             nome_exibicao = dados_remedio['generico']
