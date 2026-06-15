@@ -14,11 +14,11 @@ def consultar_medicamento_fda(nome_remedio: str) -> dict:
                 openfda_data = resultado.get("openfda", {})
                 
                 # Extrai os dados se existirem
-                generico = openfda_data.get("generic_name", ["Não identificado"])[0]
-                marca = openfda_data.get("brand_name", ["Não identificada"])[0]
+                generico = (openfda_data.get("generic_name") or ["Não identificado"])[0]
+                marca = (openfda_data.get("brand_name") or ["Não identificada"])[0]
                 return {"generico": generico.title(), "marca": marca.title()}
         return None
-    except requests.exceptions.RequestException as e:
+    except requests.exceptions.RequestException:
         return None
 
 def calcular_dosagem(peso: float, concentracao: float, dose_recomendada: float) -> float:
@@ -44,7 +44,7 @@ def main():
         
         nome_exibicao = remedio.title()
         if dados_remedio:
-            print(f"✓ Medicamento validado!")
+            print("✓ Medicamento validado!")
             print(f"  Nome Genérico: {dados_remedio['generico']}")
             print(f"  Marca de Referência: {dados_remedio['marca']}")
             nome_exibicao = dados_remedio['generico']
