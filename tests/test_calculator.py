@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+
+# Add the parent directory to the path to allow src imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import pytest
 from unittest.mock import patch
 from src.calculator import calcular_dosagem, consultar_medicamento_fda
