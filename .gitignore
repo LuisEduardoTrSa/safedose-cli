@@ -1,0 +1,38 @@
+# Ambientes Virtuais
+venv/
+env/
+.venv/
+
+# Cache e Arquivos Compilados do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+
+# Ferramentas de Teste e Qualidade
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.ruff_cache/
+
+# Variáveis de Ambiente e Credenciais Seguras
+.env
+.env.local
+.env.*.local
+*.pem

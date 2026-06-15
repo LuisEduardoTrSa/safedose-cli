@@ -1,6 +1,7 @@
 import pytest
+import os
 from unittest.mock import patch
-from src.calculator import calcular_dosagem, consultar_medicamento_fda
+from src.calculator import calcular_dosagem, consultar_medicamento_fda, salvar_historico
 
 def test_calculo_dosagem_sucesso():
 
@@ -43,3 +44,19 @@ def test_consultar_medicamento_fda_nao_encontrado(mock_get):
     resultado = consultar_medicamento_fda("medicamento_inexistente")
 
     assert resultado is None
+
+@patch("src.calculator.create_client")
+@patch.dict("os.environ", {"SUPABASE_URL": "http://mock-url", "SUPABASE_KEY": "mock-key"})
+def test_salvar_historico_com_credenciais(mock_create_client):
+    salvar_historico("Ibuprofen", 50.0, 10.0)
+    
+    mock_create_client.assert_called_once_with("http://mock-url", "mock-key")
+    # Garante que a tabela foi chamada
+    mock_create_client.return_value.table.assert_called_once_with("prescricoes")
+    mock_create_client.return_value.table.return_value.insert.assert_called_once()
+    mock_create_client.return_value.table.return_value.insert.return_value.execute.assert_called_once()
+
+@patch.dict("os.environ", clear=True)
+def test_salvar_historico_sem_credenciais():
+    # Não deve lançar erro e deve retornar cedo
+    salvar_historico("Ibuprofen", 50.0, 10.0)
