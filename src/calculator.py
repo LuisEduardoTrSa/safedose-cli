@@ -94,13 +94,9 @@ def main():
         print("-" * 50)
         print(f" RESULTADO: Administrar {ml} ml")
         print("=" * 50)
- fix/correcao-bugs
         
         salvar_historico(nome_exibicao, peso, ml)
-        
 
-
- main
     except ValueError as e:
         print(f"\n[ERRO]: Entrada inválida. {e}")
     except KeyboardInterrupt:
