@@ -1,15 +1,28 @@
+import sys
+from pathlib import Path
+
+# Add the parent directory to the path to allow src imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import pytest
+ fix/correcao-bugs
 import os
 from unittest.mock import patch
 from src.calculator import calcular_dosagem, consultar_medicamento_fda, salvar_historico
 
-def test_calculo_dosagem_sucesso():
+from unittest.mock import patch
+from src.calculator import calcular_dosagem, consultar_medicamento_fda
+ main
 
+
+def test_calculo_dosagem_sucesso():
     assert calcular_dosagem(10, 100, 20) == 2.0
+
 
 def test_calculo_dosagem_valor_invalido():
     with pytest.raises(ValueError, match="maiores que zero"):
         calcular_dosagem(0, 50, 10)
+
 
 def test_calculo_dosagem_valor_limite():
     assert calcular_dosagem(0.5, 10, 5) == 0.25
@@ -33,6 +46,7 @@ def test_consultar_medicamento_fda(mock_get):
 
     assert resultado["generico"] == "Ibuprofen"
     assert resultado["marca"] == "Advil"
+
 
 @patch("src.calculator.requests.get")
 def test_consultar_medicamento_fda_nao_encontrado(mock_get):

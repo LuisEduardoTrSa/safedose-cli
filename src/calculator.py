@@ -13,13 +13,13 @@ def consultar_medicamento_fda(nome_remedio: str) -> dict:
     url = f'https://api.fda.gov/drug/label.json?search=openfda.generic_name:"{busca}"&limit=1'
     try:
         response = requests.get(url, timeout=5)
-        
+
         if response.status_code == 200:
             dados = response.json()
             if "results" in dados and len(dados["results"]) > 0:
                 resultado = dados["results"][0]
                 openfda_data = resultado.get("openfda", {})
-                
+
                 # Extrai os dados se existirem
                 generico = (openfda_data.get("generic_name") or ["Não identificado"])[0]
                 marca = (openfda_data.get("brand_name") or ["Não identificada"])[0]
@@ -58,16 +58,16 @@ def main():
     print("           SafeDose CLI - Versão 1.1.0")
     print("      Integração Internacional OpenFDA Ativa")
     print("-" * 50)
-    
+
     try:
         # Etapa 1: Consumo da API
         print("\n[1] VALIDAÇÃO DO MEDICAMENTO")
         # Dica: Como a API é americana, princípios ativos internacionais funcionam melhor
         remedio = input("Digite o princípio ativo (ex: Ibuprofen, Amoxicillin, Paracetamol): ")
-        
+
         print("Consultando base de dados da FDA...")
         dados_remedio = consultar_medicamento_fda(remedio)
-        
+
         nome_exibicao = remedio.title()
         if dados_remedio:
             print("✓ Medicamento validado!")
@@ -83,9 +83,9 @@ def main():
         peso = float(input("Digite o peso do paciente (kg): "))
         conc = float(input(f"Digite a concentração de {nome_exibicao} (mg/ml): "))
         dose = float(input("Digite a dose recomendada (mg/kg): "))
-        
+
         ml = calcular_dosagem(peso, conc, dose)
-        
+
         print("\n" + "=" * 50)
         print("                 PRESCRIÇÃO SEGURA")
         print("=" * 50)
@@ -94,9 +94,13 @@ def main():
         print("-" * 50)
         print(f" RESULTADO: Administrar {ml} ml")
         print("=" * 50)
+ fix/correcao-bugs
         
         salvar_historico(nome_exibicao, peso, ml)
         
+
+
+ main
     except ValueError as e:
         print(f"\n[ERRO]: Entrada inválida. {e}")
     except KeyboardInterrupt:
