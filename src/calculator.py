@@ -1,5 +1,12 @@
 import sys
+import os
 import requests
+from datetime import datetime
+from dotenv import load_dotenv
+from supabase import create_client, Client
+
+# Carrega variáveis de ambiente
+load_dotenv()
 
 def consultar_medicamento_fda(nome_remedio: str) -> dict:
     busca = nome_remedio.strip().lower().replace(" ", "+")
@@ -14,8 +21,8 @@ def consultar_medicamento_fda(nome_remedio: str) -> dict:
                 openfda_data = resultado.get("openfda", {})
 
                 # Extrai os dados se existirem
-                generico = openfda_data.get("generic_name", ["Não identificado"])[0]
-                marca = openfda_data.get("brand_name", ["Não identificada"])[0]
+                generico = (openfda_data.get("generic_name") or ["Não identificado"])[0]
+                marca = (openfda_data.get("brand_name") or ["Não identificada"])[0]
                 return {"generico": generico.title(), "marca": marca.title()}
         return None
     except requests.exceptions.RequestException:
@@ -26,6 +33,25 @@ def calcular_dosagem(peso: float, concentracao: float, dose_recomendada: float) 
         raise ValueError("Todos os valores devem ser maiores que zero.")
     resultado = (peso * dose_recomendada) / concentracao
     return round(resultado, 2)
+
+def salvar_historico(medicamento: str, peso: float, ml: float) -> None:
+    url: str = os.environ.get("SUPABASE_URL", "")
+    key: str = os.environ.get("SUPABASE_KEY", "")
+    
+    if not url or not key:
+        return
+
+    try:
+        supabase: Client = create_client(url, key)
+        supabase.table("prescricoes").insert({
+            "medicamento": medicamento,
+            "peso": peso,
+            "dosagem_ml": ml,
+            "data_hora": datetime.now().isoformat()
+        }).execute()
+    except Exception:
+        # Falha silenciosa
+        pass
 
 def main():
     print("-" * 50)
@@ -68,7 +94,13 @@ def main():
         print("-" * 50)
         print(f" RESULTADO: Administrar {ml} ml")
         print("=" * 50)
+ fix/correcao-bugs
+        
+        salvar_historico(nome_exibicao, peso, ml)
+        
 
+
+ main
     except ValueError as e:
         print(f"\n[ERRO]: Entrada inválida. {e}")
     except KeyboardInterrupt:
